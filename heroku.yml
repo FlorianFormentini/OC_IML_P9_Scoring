@@ -1,0 +1,20 @@
+# setup - Specifies the add-ons and config vars to create during app provisioning
+
+# build - Specifies the Dockerfile to build
+build:
+  docker:
+    backend: backend\Dockerfile
+    frontend: frontend\Dockerfile
+
+# release - Specifies the release phase tasks to execute
+release
+
+# run - Specifies process types and the commands to run for each
+run:
+  backend: 
+    command:
+      - python main.py
+  frontend: 
+    command:
+      - streamlit run main.py
+    image: backend
