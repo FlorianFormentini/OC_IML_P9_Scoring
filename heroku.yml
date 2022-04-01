@@ -15,5 +15,5 @@ run:
       - python main.py
   frontend: 
     command:
-      - streamlit run main.py
+      - python -m streamlit run main.py
     image: backend
