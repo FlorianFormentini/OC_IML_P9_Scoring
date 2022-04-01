@@ -8,6 +8,7 @@ import joblib
 import shap
 
 HOST = os.getenv('HOST', "http://backend")
+PORT_BACK = os.getenv('PORT_BACK', 8080)
 
 
 def st_shap(plot, height=None):
@@ -25,7 +26,7 @@ st.title("Scoring Model Web App")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get(f"{HOST}/clients/")
+    r_all = requests.get(f"{HOST}:{PORT_BACK}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")
@@ -40,7 +41,7 @@ try:
     if client_id and client_id != options[0]:
         # req to backend with spinner
         with st.spinner(text="Predictions in progress..."):
-            r_client = requests.post(f"{HOST}:8080/{client_id}")
+            r_client = requests.post(f"{HOST}:{PORT_BACK}/{client_id}")
 
         r_client.raise_for_status()
         preds = r_client.json()
