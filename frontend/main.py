@@ -18,7 +18,7 @@ explainer = joblib.load("./shap_explainer.pkl")
 
 # defines an h1 header
 st.title("Scoring Model Web App")
-st.caption("OC IML - Bonus Project 1", unsafe_allow_html=False)
+st.caption("OC IML - Bonus Project 1")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
