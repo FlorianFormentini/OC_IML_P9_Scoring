@@ -3,8 +3,8 @@
 # build - Specifies the Dockerfile to build
 build:
   docker:
-    backend: backend\Dockerfile
-    frontend: frontend\Dockerfile
+    backend: backend/Dockerfile
+    frontend: frontend/Dockerfile
 
 # release - Specifies the release phase tasks to execute
 
