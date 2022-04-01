@@ -8,6 +8,7 @@ import joblib
 import shap
 
 HOST = os.getenv('HOST') or "http://backend"
+HOST = "http://0.0.0.0"
 
 
 def st_shap(plot, height=None):
@@ -19,9 +20,9 @@ def st_shap(plot, height=None):
 # load model explainer
 explainer = joblib.load("./shap_explainer.pkl")
 
-# defines an h1 header
+# Title
+st.caption("OC IML - Bonus Project 01")
 st.title("Scoring Model Web App")
-st.caption("OC IML - Bonus Project 1")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
