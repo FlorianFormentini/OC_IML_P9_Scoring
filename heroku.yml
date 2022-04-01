@@ -7,7 +7,6 @@ build:
     frontend: frontend\Dockerfile
 
 # release - Specifies the release phase tasks to execute
-release
 
 # run - Specifies process types and the commands to run for each
 run:
