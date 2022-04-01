@@ -1,6 +1,5 @@
 """https://testdriven.io/blog/fastapi-streamlit/
 """
-import os
 import uvicorn
 import pandas as pd
 import numpy as np
@@ -11,7 +10,6 @@ from typing import List
 
 from data_models import Client, PredictionOut
 
-PORT = os.getenv('PORT') or 8080
 
 app = FastAPI(
     title="OC IML P9 (bonus) - Scoring model API")
