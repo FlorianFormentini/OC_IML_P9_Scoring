@@ -3,16 +3,16 @@
 # build - Specifies the Dockerfile to build
 build:
   docker:
-    web: Dockerfile.back
-    web: Dockerfile.front
+    web.1: Dockerfile.back
+    web.2: Dockerfile.front
 
 # release - Specifies the release phase tasks to execute
 
 # run - Specifies process types and the commands to run for each
 run:
-  backend: 
+  web.1: 
     command:
       - python -m uvicorn main:app --host 0.0.0.0 --port $PORT
-  web:
+  web.2:
     command:
       - python -m streamlit run main.py --server.port $PORT
