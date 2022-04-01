@@ -1,3 +1,4 @@
+import os
 import requests
 import pandas as pd
 import numpy as np
@@ -5,6 +6,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 import joblib
 import shap
+
+HOST = os.getenv('HOST') or "http://backend"
+PORT = os.getenv('PORT') or "8080"
 
 
 def st_shap(plot, height=None):
@@ -22,7 +26,7 @@ st.caption("OC IML - Bonus Project 1")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get("http://backend:8080/clients/")
+    r_all = requests.get("{HOST}:{PORT}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")
@@ -37,7 +41,7 @@ try:
     if client_id and client_id != options[0]:
         # req to backend with spinner
         with st.spinner(text="Predictions in progress..."):
-            r_client = requests.post(f"http://backend:8080/{client_id}")
+            r_client = requests.post(f"{HOST}:{PORT}/{client_id}")
 
         r_client.raise_for_status()
         preds = r_client.json()
