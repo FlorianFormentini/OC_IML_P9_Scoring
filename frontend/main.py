@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import joblib
 import shap
 
-HOST = os.getenv('HOST') or "http://backend"
+HOST = os.getenv('HOST', "http://backend")
 
 
 def st_shap(plot, height=None):
@@ -25,7 +25,7 @@ st.title("Scoring Model Web App")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get("http://backend/clients/")
+    r_all = requests.get(f"{HOST}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")
