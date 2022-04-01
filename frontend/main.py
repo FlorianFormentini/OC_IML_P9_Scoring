@@ -8,7 +8,6 @@ import joblib
 import shap
 
 HOST = os.getenv('HOST') or "http://backend"
-logger.info("HOST:", HOST)
 
 
 def st_shap(plot, height=None):
