@@ -16,4 +16,3 @@ run:
   frontend: 
     command:
       - python -m streamlit run main.py
-    image: backend
