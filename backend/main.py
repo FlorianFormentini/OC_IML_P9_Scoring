@@ -11,7 +11,8 @@ from typing import List
 
 from data_models import Client, PredictionOut
 
-PORT = os.getenv('PORT') or '8080'
+PORT = os.getenv('PORT') or 8080
+
 app = FastAPI(
     title="OC IML P9 (bonus) - Scoring model API")
 logger = logging.getLogger('uvicorn.error')
@@ -70,6 +71,6 @@ async def predict(
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=PORT)
+    uvicorn.run("main:app", host="0.0.0.0", port=8080)
 
 # docker-compose up -d --build
