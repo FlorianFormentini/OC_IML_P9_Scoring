@@ -9,6 +9,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
+# Expose is NOT supported by Heroku
 EXPOSE 8080
 
 CMD ["python", "main.py"]

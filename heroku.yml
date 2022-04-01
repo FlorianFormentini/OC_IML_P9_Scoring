@@ -12,7 +12,7 @@ build:
 run:
   backend: 
     command:
-      - python -m uvicorn main:app --host 0.0.0.0 --port $PORT
+      - python -m uvicorn main:app --host 0.0.0.0 --port 8080
   web:
     command:
       - python -m streamlit run main.py --server.port $PORT
