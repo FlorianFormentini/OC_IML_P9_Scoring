@@ -15,4 +15,4 @@ run:
       - python main.py
   web: 
     command:
-      - python -m streamlit run main.py
+      - python -m streamlit run main.py --server.port $PORT
