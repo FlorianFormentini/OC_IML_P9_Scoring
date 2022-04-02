@@ -6,20 +6,23 @@ import pandas as pd
 import numpy as np
 import joblib
 import logging
-from fastapi import FastAPI, Path, HTTPException  # , Body , UploadFile, File, HTTPException
+from fastapi import (
+    FastAPI,
+    Path,
+    HTTPException,
+)  # , Body , UploadFile, File, HTTPException
 from typing import List
 
 from data_models import Client, PredictionOut
 
 
-app = FastAPI(
-    title="OC IML P9 (bonus) - Scoring model API")
-logger = logging.getLogger('uvicorn.error')
+app = FastAPI(title="OC IML P9 (bonus) - Scoring model API")
+logger = logging.getLogger("uvicorn.error")
 
 THRESHOLD = 0.329
 
 # load model and db
-db = pd.read_csv('./cleaned_data.csv', index_col='SK_ID_CURR')
+db = pd.read_csv("./cleaned_data.csv", index_col="SK_ID_CURR")
 logger.info(f"✅ DB Loaded: {db.shape[1]} clients")
 # load clf
 clf = joblib.load("./best_clf.pkl")
@@ -28,7 +31,7 @@ logger.info(f"✅ Model Loaded: {clf['classifier'].__class__.__name__}")
 # trans == tuple('name', Pipeline, [input_cols])
 cols_pp = [
     trans[1][-1].get_feature_names_out(input_features=trans[-1]).tolist()
-    for trans in clf['preprocessor'].transformers_
+    for trans in clf["preprocessor"].transformers_
 ]
 # flatten list of lists
 cols_pp = [item for sublist in cols_pp for item in sublist]
@@ -41,7 +44,11 @@ def read_root():
 
 @app.get("/clients/", response_model=List[Client])
 def get_clients():
-    clients = db.reset_index().replace(np.nan, 0).to_dict(orient='records', into=Client.schema())
+    clients = (
+        db.reset_index()
+        .replace(np.nan, 0)
+        .to_dict(orient="records", into=Client.schema())
+    )
     return clients
 
 
@@ -60,16 +67,20 @@ async def predict(
     label = (proba >= THRESHOLD).astype("int")
     logger.info(f"Proba: {proba} - Label: {label}")
     # get preprocessed data
-    client_data_pp = clf['preprocessor'].transform(client_data)
+    client_data_pp = clf["preprocessor"].transform(client_data)
     return PredictionOut(
         proba=proba,
         label=label,
         features=client_data_pp.tolist(),
-        features_name=cols_pp
+        features_name=cols_pp,
     )
 
 
 if __name__ == "__main__":
-    uvicorn.run('main:app', host=os.getenv('HOST', '0.0.0.0'), port=os.getenv('PORT', 8080))
+    uvicorn.run(
+        "main:app", host="0.0.0.0",
+        # if $PORT: heroku else: docker-compose
+        port=os.getenv("PORT", 8080)
+    )
 
 # docker-compose up -d --build

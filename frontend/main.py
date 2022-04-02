@@ -7,9 +7,6 @@ import streamlit.components.v1 as components
 import joblib
 import shap
 
-HOST = os.getenv('HOST', "http://backend")
-PORT_BACK = os.getenv('PORT_BACK', 8080)
-
 
 def st_shap(plot, height=None):
     div_style = "background-color: white;border-radius: 5px;"
@@ -17,16 +14,28 @@ def st_shap(plot, height=None):
     components.html(shap_html, height=height)
 
 
+# if env vars: heroku else: local docker-compose
+BACKEND_HOST = os.getenv("BACKEND_HOST", "http://backend")
+BACKEND_PORT = os.getenv("BACKEND_PORT", 8080)
+
 # load model explainer
 explainer = joblib.load("./shap_explainer.pkl")
 
-# Title
-st.caption("OC IML - Bonus Project 01")
+# set page config
+st.set_page_config(
+    page_title="OC IML BP1 - Scoring Model",
+    page_icon="💸",
+    layout="wide",
+    initial_sidebar_state="auto",
+)
+
+# page title
 st.title("Scoring Model Web App")
+st.caption("OC IML - Bonus Project 01")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get("http://worker/clients/")
+    r_all = requests.get("{BACKEND_HOST}:{BACKEND_PORT}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")
@@ -41,7 +50,7 @@ try:
     if client_id and client_id != options[0]:
         # req to backend with spinner
         with st.spinner(text="Predictions in progress..."):
-            r_client = requests.post(f"{HOST}:{PORT_BACK}/{client_id}")
+            r_client = requests.post(f"{BACKEND_HOST}:{BACKEND_PORT}/{client_id}")
 
         r_client.raise_for_status()
         preds = r_client.json()
@@ -63,8 +72,9 @@ try:
                 explainer.expected_value,
                 shap_values[0, :],
                 features=features,
-                feature_names=preds["features_name"]
-            ), height=170  # html iframe height
+                feature_names=preds["features_name"],
+            ),
+            height=170,  # html iframe height
         )
         st.markdown("### Client's data")
         st.dataframe(df[df.index == client_id].T.astype(str))
