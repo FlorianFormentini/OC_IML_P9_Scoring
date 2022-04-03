@@ -16,7 +16,7 @@ from typing import List
 from data_models import Client, PredictionOut
 
 
-app = FastAPI(title="OC IML P9 (bonus) - Scoring model API")
+app = FastAPI(title="OC IML Bonus Project 01 - Scoring Model API")
 logger = logging.getLogger("uvicorn.error")
 
 THRESHOLD = 0.329
@@ -82,5 +82,3 @@ if __name__ == "__main__":
         # if $PORT: heroku else: docker-compose
         port=os.getenv("PORT", 8080)
     )
-
-# docker-compose up -d --build
