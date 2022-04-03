@@ -5,7 +5,7 @@ docker-compose up [-d] [--build]
 ```
 - `-d` - To not display logs
 - `--build` - To also build the images. Required only the first time.
-- 
+
 API Swagger : http://localhost:8080/docs
 Streamlit UI : http://localhost:8501
 
