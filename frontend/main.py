@@ -35,7 +35,7 @@ st.caption("OC IML - Bonus Project 01")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get("{BACKEND_HOST}:{BACKEND_PORT}/clients/")
+    r_all = requests.get(f"{BACKEND_HOST}:{BACKEND_PORT}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")

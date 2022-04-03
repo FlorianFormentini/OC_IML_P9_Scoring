@@ -42,7 +42,11 @@ heroku container:release web -a <app_name>-back
 heroku open -a <app_name>-back
 ```
 
-Same process for the frontend deployment:
+For the frontend to be able to connect to the API, it is necessary to get the port on which the API listens in its logs and the url of its heroku application.  
+Then you have to set them as environment variables in the frontend application: `BACKEND_PORT` and `BACKEND_HOST`.  
+In the Heroku dashboard of the frontend application: Settings > "Reveal Config Vars" button
+
+Then, same process for the frontend deployment:
 ```bash
 # Access backend folder
 cd <root_path>/frontend
@@ -55,7 +59,3 @@ heroku container:release web -a <app_name>-front
 # open app
 heroku open -a <app_name>-back
 ```
-
-For the frontend to be able to connect to the API, it is necessary to get the port on which the API listens in its logs and the url of its heroku application.  
-Then you have to set them as environment variables in the frontend application: `BACKEND_PORT` and `BACKEND_HOST`.  
-In the Heroku dashboard of the frontend application: Settings > "Reveal Config Vars" button
