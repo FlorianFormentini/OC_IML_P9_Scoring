@@ -15,7 +15,7 @@ def st_shap(plot, height=None):
 
 
 # if env vars: heroku else: local docker-compose
-BACKEND_HOST = os.getenv("BACKEND_HOST", "http://backend")
+BACKEND_HOST = os.getenv("BACKEND_HOST", "http://backend:8080")
 BACKEND_PORT = os.getenv("BACKEND_PORT", 8080)
 
 # load model explainer
@@ -35,7 +35,7 @@ st.caption("OC IML - Bonus Project 01")
 
 # req to get db data
 with st.spinner(text="Accessing DB ..."):
-    r_all = requests.get(f"{BACKEND_HOST}:{BACKEND_PORT}/clients/")
+    r_all = requests.get(f"{BACKEND_HOST}/clients/")
 try:
     r_all.raise_for_status()
     df = pd.DataFrame(r_all.json()).set_index("SK_ID_CURR")
@@ -50,7 +50,7 @@ try:
     if client_id and client_id != options[0]:
         # req to backend with spinner
         with st.spinner(text="Predictions in progress..."):
-            r_client = requests.post(f"{BACKEND_HOST}:{BACKEND_PORT}/{client_id}")
+            r_client = requests.post(f"{BACKEND_HOST}/{client_id}")
 
         r_client.raise_for_status()
         preds = r_client.json()
